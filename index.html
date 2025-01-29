@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love my Girlfriend</title>
+    <!-- Add Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+    <!-- Add Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sour+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Add CSS -->
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        /* Mobile background (default) */
+        @media (max-width: 768px) {
+            body::before {
+                background-image: url('./arthur_tania_mobile.png');
+            }
+            h1 {
+                text-align: center;
+                color: black;
+                font-size: 3rem;
+                line-height: 1.2;
+                font-family: 'Sour Sans', cursive;
+                /* Add text shadow to make text readable on any background */
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+            .flags img {
+                width: 50px;
+            }
+            .flags span {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Desktop background */
+        @media (min-width: 769px) {
+            body::before {
+                background-image: url('./arthur_tania_desktop.png');
+            }
+            h1 {
+                text-align: center;
+                color: black;
+                font-size: 6rem;
+                line-height: 1.2;
+                font-family: 'Sour Sans', cursive;
+                /* Add text shadow to make text readable on any background */
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .flags {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .flags img {
+            width: 80px;
+            height: auto;
+        }
+
+        .flags span {
+            font-size: 4rem;
+            animation: heartbeat 1.5s infinite;
+            display: flex;
+            align-items: center;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        button {
+            padding: 1rem 3rem;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Sour Sans', cursive;
+        }
+
+        button:first-child {
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        button:last-child {
+            background-color: #868e96;
+            color: white;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .buttons-container {
+                gap: 1rem;
+            }
+            
+            button {
+                padding: 0.8rem 2rem;
+                font-size: 1.2rem;
+            }
+        }
+
+        .heart {
+            position: fixed;
+            font-size: 2rem;
+            pointer-events: none;
+            animation: float 2s ease-out forwards;
+            z-index: 1000;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5) rotate(20deg);
+                opacity: 0;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .hidden-audio {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+   
+    <main>
+        <section>
+            <div class="flags">
+                <img src="https://flagcdn.com/br.svg" alt="Brazilian flag">
+                <span>❤️</span>
+                <img src="https://flagcdn.com/ca.svg" alt="Canadian flag">
+            </div>
+            <div>
+                <h1>Will you be my valentine?</h1>
+            </div>
+            <div class="buttons-container">
+                <button>Yes</button>
+                <button>No</button>
+            </div>
+        </section>
+    </main>
+
+    <audio id="bgMusic" class="hidden-audio" loop>
+        <source src="./music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const yesButton = document.querySelector('button:first-child');
+        const noButton = document.querySelector('button:last-child');
+        const bgMusic = document.getElementById('bgMusic');
+        
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.bottom = '0';
+            document.body.appendChild(heart);
+            
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        yesButton.addEventListener('click', () => {
+            noButton.classList.add('hidden');
+            // Start playing music
+            bgMusic.play().catch(error => console.log("Audio playback failed:", error));
+            
+            // Create multiple hearts
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 100);
+            }
+            // Continue creating hearts
+            setInterval(() => {
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        createHeart();
+                    }, i * 100);
+                }
+            }, 2000);
+        });
+
+        noButton.addEventListener('click', () => {
+            // Make the No button run away from the cursor
+            const button = event.target;
+            const newX = Math.random() * (window.innerWidth - button.offsetWidth);
+            const newY = Math.random() * (window.innerHeight - button.offsetHeight);
+            button.style.position = 'fixed';
+            button.style.left = newX + 'px';
+            button.style.top = newY + 'px';
+        });
+    </script>
+
+</body>
+</html>
