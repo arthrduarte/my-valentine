@@ -209,6 +209,7 @@
         const yesButton = document.querySelector('button:first-child');
         const noButton = document.querySelector('button:last-child');
         const bgMusic = document.getElementById('bgMusic');
+        let heartFlowInterval; // To store the interval ID
         
         function createHeart() {
             const heart = document.createElement('div');
@@ -221,6 +222,20 @@
             heart.addEventListener('animationend', () => {
                 heart.remove();
             });
+        }
+
+        function startHeartFlow() {
+            // Initial burst of hearts
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 200);
+            }
+            
+            // Continuous flow
+            heartFlowInterval = setInterval(() => {
+                createHeart();
+            }, 300);
         }
 
         yesButton.addEventListener('click', () => {
@@ -237,20 +252,8 @@
                     bgMusic.play().catch(e => console.error("Retry failed:", e.message));
                 });
             
-            // Create multiple hearts
-            for (let i = 0; i < 30; i++) {
-                setTimeout(() => {
-                    createHeart();
-                }, i * 100);
-            }
-            // Continue creating hearts
-            setInterval(() => {
-                for (let i = 0; i < 5; i++) {
-                    setTimeout(() => {
-                        createHeart();
-                    }, i * 100);
-                }
-            }, 2000);
+            // Start the continuous heart flow
+            startHeartFlow();
         });
 
         noButton.addEventListener('click', () => {
